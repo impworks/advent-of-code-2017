@@ -11,8 +11,9 @@ let getDigit id = digits.[id % digits.Length]
 
 // gets the digit if it matches another digit "offset" positions forward, otherwise 0
 let getSumElem offset id =
-    let isMatching = getDigit id = getDigit (id + offset)
-    if isMatching then getDigit id else 0
+    let curr = getDigit id
+    let other = getDigit (id + offset)
+    if curr = other then curr else 0
 
 // Gets the sum of all digits matching the criteria
 let answer offset =
