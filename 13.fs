@@ -31,22 +31,6 @@ let initialState =
     |> Seq.map find
     |> Seq.toArray
 
-let layersCount = initialState.Length
-
-let visualize (state: Scanner option []) (pos: int) (severity: int) =
-    Console.WriteLine("State {0}: (S = {1})", pos, severity)
-    for i = 0 to state.Length - 1 do
-        Console.Write("{0}: ", i)
-        match state.[i] with
-        | None -> Console.WriteLine (if pos = i then "(.)" else "...")
-        | Some sc ->
-            for j = 0 to sc.Depth - 1 do
-                let template = if pos = i && j = 0 then "({0}) " else "[{0}] "
-                let mark = if j = sc.Position then "X" else " "
-                Console.Write(template, mark)
-            Console.WriteLine ()
-    Console.WriteLine()
-
 let answer1 =
     let step state =
         let stepScanner scopt =
@@ -66,7 +50,7 @@ let answer1 =
         | _ -> 0
 
     let rec traverse state severity pos =
-        if pos = layersCount + 1 then
+        if pos = initialState.Length then
             severity
         else
             let newSeverity = severity + (getSeverity state pos)
@@ -96,7 +80,7 @@ let answer2 =
             | Some sc ->
                 posAt (sc.Depth) (pos + delay) = 0
 
-        { 0 .. layersCount }
+        { 0 .. initialState.Length - 1 }
         |> Seq.map (isNoticed state delay)
         |> Seq.forall not
 
