@@ -80,3 +80,14 @@ let answer1 =
     !count
 
 let answer2 =
+    let map = Map ()
+    let mutable pos = { X = 0; Y = 0; Dir = -90 }
+    let count = ref 0
+
+    for i = 1 to 10000000 do
+        let state = map.getState (pos.X, pos.Y)
+        if state = Weakened then incr count
+        map.toggleState2 (pos.X, pos.Y)
+        pos <- step pos state
+
+    !count
