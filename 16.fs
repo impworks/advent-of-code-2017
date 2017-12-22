@@ -61,11 +61,12 @@ let memoize fn =
     fun input ->
         if not (cache.ContainsKey(input)) then
             cache.[input] <- fn input
-            
+
         cache.[input]
 
 let answer1 = answer initial
 
 let answer2 =
+    let memAnswer = memoize answer
     { 1 .. 1000000000 }
-    |> Seq.fold (fun state _ -> answer state) initial
+    |> Seq.fold (fun state _ -> memAnswer state) initial
